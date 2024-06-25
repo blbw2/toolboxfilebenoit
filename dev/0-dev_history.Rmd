@@ -24,7 +24,7 @@ fusen::fill_description(
   )
 )
 # Define License with use_*_license()
-usethis::use_mit_license("John Doe")
+usethis::use_mit_license("Benoit Williatte")
 ```
 
 # All-in-one function to deploy publicly on GitHub
