@@ -1,0 +1,12 @@
+Package: toolboxfilebenoit
+Version: 0.0.0.9000
+Title: Boite À Outils D'analyse De Données
+Description: Un package regroupant des fonctions pratiques pour analyser des données.
+Authors@R: person(given = "Benoit",
+       family = "Williatte",
+       role = c("aut", "cre"),
+       email = "benoit.williatte@sciencespo.fr")
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
