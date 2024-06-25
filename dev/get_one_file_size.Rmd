@@ -1,5 +1,5 @@
 ---
-title: "flat_first.Rmd for working package"
+title: "Déterminer la taille d'un fichier"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -10,6 +10,7 @@ editor_options:
 
 ```{r development, include=FALSE}
 library(testthat)
+
 ```
 
 <!--
@@ -44,10 +45,23 @@ datafile <- system.file("nyc_squirrels_sample.csv", package = "fusen")
 nyc_squirrels <- read.csv(datafile, encoding = "UTF-8")
 
 nyc_squirrels
+
+path <- system.file("nyc_squirrels_sample.csv", package = "fusen")
+
+filesize <- file.size(path)
+filename <- basename(path)
+
+out <- data.frame(name = filename, size = filesize ) 
 ```
 
 
-# The first function of the package: Calculate the median of a vector
+# Taille d'un fichier
+
+La fonction `get_one_file_size()` permet de calculer la taille d'un fichier.
+Elle prend les arguments suivants :
+
+  - En entrée : un nom de fichier
+  - En sortie : un `data.frame` avec le nom et la taille du fichir fourni.
 
 <!--
 Create a chunk for the core of the function
@@ -64,19 +78,21 @@ After inflating the template
 -->
 
 ```{r function}
-#' My median
+#' Obtenir la taille d'un fichier
 #'
-#' @param x Vector of Numeric values
-#' @inheritParams stats::median
+#' @param path A string : path of the file to be analysed.
 #'
-#' @return
-#' Median of vector x
+#' @return df_filesize A `data.frame` : name and size of the file pointed by `path`.
 #' @export
 #'
 #' @examples
-my_median <- function(x, na.rm = TRUE) {
-  if (!is.numeric(x)) {stop("x should be numeric")}
-  stats::median(x, na.rm = na.rm)
+get_one_file_size <- function(path) {
+  
+filesize <- file.size(path)
+filename <- basename(path)
+
+df_filesize <- data.frame(name = filename, size = filesize ) 
+return(df_filesize)
 }
 ```
 
@@ -95,13 +111,20 @@ After inflating the template
 -->
 
 ```{r examples}
-my_median(1:12)
+
 
 # Example with your dataset in "inst/"
 datafile <- system.file("nyc_squirrels_sample.csv", package = "fusen")
-nyc_squirrels <- read.csv(datafile, encoding = "UTF-8")
-# Apply my function
-my_median(nyc_squirrels[,"hectare_squirrel_number"])
+
+get_one_file_size(datafile)
+# data(sampledf)
+# 
+# temp_path <- tempfile(pattern = "test_filesize")
+# temp_filepath <- file.path(temp_path,"sampledf.csv" )
+# write.csv(x = sampledf, temp_filepath) 
+# get_one_file_size(sampledf)
+
+
 ```
 
 <!--
@@ -118,17 +141,12 @@ After inflating the template
 -->
 
 ```{r tests}
-test_that("my_median works properly and show error if needed", {
-  expect_true(my_median(1:12) == 6.5)
-  expect_error(my_median("text"))
-})
+test_that("get_one_file_size works",{
 
-# Test with your dataset in "inst/"
-datafile <- system.file("nyc_squirrels_sample.csv", package = "fusen")
-nyc_squirrels <- read.csv(datafile, encoding = "UTF-8")
-# Apply test on my function
-test_that("my_median works properly with internal dataset", {
-  expect_equal(my_median(nyc_squirrels[,"hectare_squirrel_number"]), 3)
+nrowsquirrels <- get_one_file_size(system.file("nyc_squirrels_sample.csv", package = "toolboxfilebenoit")
+)
+  expect_equal(nrowsquirrels[["size"]],
+               118993)
 })
 ```
 
@@ -138,43 +156,6 @@ test_that("my_median works properly with internal dataset", {
 There can be other functions, examples and tests in your flat template.
 Each of them will be inflated in a different file, provided that there is a level-1 or level-2 section title to separate from previous functions.
 -->
-
-## Use sub-functions in the same chunk
-
-```{r function-my_other_median}
-#' My Other median
-#'
-#' @param x Vector of Numeric values
-#' @inheritParams stats::median
-#'
-#' @return
-#' Median of vector x
-#' @export
-#'
-#' @examples
-my_other_median <- function(x, na.rm = TRUE) {
-  if (!is.numeric(x)) {stop("x should be numeric")}
-  sub_median(x, na.rm =na.rm)
-}
-
-#' Core of the median not exported
-#' @param x Vector of Numeric values
-#' @inheritParams stats::median
-sub_median <- function(x, na.rm = TRUE) {
-  stats::median(x, na.rm)
-}
-```
-
-```{r examples-my_other_median}
-my_other_median(1:12)
-```
-
-```{r tests-my_other_median}
-test_that("my_median works properly and show error if needed", {
-  expect_true(my_other_median(1:12) == 6.5)
-  expect_error(my_other_median("text"))
-})
-```
 
 <!--
 # There can be development actions
@@ -191,7 +172,7 @@ These are only included in the present flat template file, their content will no
 ```{r development-inflate, eval=FALSE}
 # Keep eval=FALSE to avoid infinite loop in case you hit the knit button
 # Execute in the console directly
-fusen::inflate(flat_file = "dev/flat_first.Rmd", vignette_name = "Get started")
+fusen::inflate(flat_file = "dev/get_one_file_size.Rmd", vignette_name = "Taille des fichiers")
 ```
 
 

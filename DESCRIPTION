@@ -1,12 +1,21 @@
 Package: toolboxfilebenoit
-Version: 0.0.0.9000
 Title: Boite À Outils D'analyse De Données
-Description: Un package regroupant des fonctions pratiques pour analyser des données.
-Authors@R: person(given = "Benoit",
-       family = "Williatte",
-       role = c("aut", "cre"),
-       email = "benoit.williatte@sciencespo.fr")
+Version: 0.0.0.9000
+Authors@R: 
+    person("Benoit", "Williatte", , "benoit.williatte@sciencespo.fr", role = c("aut", "cre"))
+Description: Un package regroupant des fonctions pratiques pour analyser
+    des données.
 License: MIT + file LICENSE
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Config/fusen/version: 0.5.2
 Encoding: UTF-8
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
